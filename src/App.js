@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './scss/app.scss';
 
 import Header from './components/header';
 import Categories from './components/categories';
 import Sort from './components/sort';
-import PizzaBlock from './components/pizza-block';
+import PizzaBlock from './components/pizza-block/pizza-block';
+import { Skeleton } from './components/pizza-block/skeleton';
 
 function App() {
   const [items, setItems] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  fetch('https://651701c309e3260018ca9138.mockapi.io/items').then((res) => {
-    return res.json();
-  }).then((arr) => {
-    setItems(arr)
-  })
+  useEffect(() => {
+    fetch('https://651701c309e3260018ca9138.mockapi.io/items').then((res) => {
+      return res.json();
+    }).then((arr) => {
+      setItems(arr);
+      setIsLoading(false);
+    })
+  }, [])
 
   return (
     <div className="App">
@@ -28,11 +33,16 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              {items.map((data) => (
-                <PizzaBlock
-                  {...data}
-                  key={data.id} />
-              ))}
+              {isLoading ? (
+                [...new Array(6)].map((_, i) => <Skeleton key={i} />)
+              ) :
+                items.map((data) => (
+                  <PizzaBlock
+                    {...data}
+                    key={data.id} />
+                ))
+              }
+
             </div>
           </div>
         </div>
