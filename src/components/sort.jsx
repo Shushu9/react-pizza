@@ -1,13 +1,20 @@
 import { useState } from "react";
 
-function Sort() {
-  const list = ['популярности', 'цене', 'алфавиту'];
+function Sort({ sortType, selectSortType }) {
 
   const [isOpen, setIsOpen] = useState(false)
-  const [activeItem, setActiveItem] = useState(0)
 
-  const selectActiveItem = (i) => {
-    setActiveItem(i)
+  const list = [
+    { name: 'популярности (DESC)', sort: 'rating' },
+    { name: 'популярности (ASC)', sort: '-rating' },
+    { name: 'цене (DESC)', sort: 'price' },
+    { name: 'цене (ASC)', sort: '-price' },
+    { name: 'алфавиту (DESC)', sort: 'title' },
+    { name: 'алфавиту (ASC)', sort: '-title' },
+  ];
+
+  const selectActiveItem = (el) => {
+    selectSortType(el)
     setIsOpen(() => false)
   }
 
@@ -15,6 +22,7 @@ function Sort() {
     <div className="sort">
       <div className="sort__label">
         <svg
+          className={isOpen ? 'rotated' : ''}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -27,19 +35,19 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen((el) => !el)}>{list[activeItem]}</span>
+        <span onClick={() => setIsOpen((el) => !el)}>{sortType.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {list.map((item, index) => {
+            {list.map((item) => {
               return (
                 <li
-                  onClick={() => selectActiveItem(index)}
-                  className={activeItem === index ? 'active' : ''}
-                  key={item}
+                  onClick={() => selectActiveItem(item)}
+                  className={sortType.name === item.name ? 'active' : ''}
+                  key={item.name}
                 >
-                  {item}
+                  {item.name}
                 </li>
               )
             })}
