@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -6,12 +6,16 @@ import PizzaBlock from '../components/pizza-block';
 import Skeleton from '../components/pizza-block/Skeleton';
 import Pagination from '../components/pagination';
 
+import { SearchContext } from '../App';
 
-const Home = ({ searchValue }) => {
-    const [items, setItems] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [categoryId, setCategoryId] = useState(0)
+const Home = () => {
+    const [items, setItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [categoryId, setCategoryId] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState({ name: 'популярности', sort: 'rating' });
+
+    const { searchValue } = useContext(SearchContext);
 
 
 
@@ -23,7 +27,7 @@ const Home = ({ searchValue }) => {
         const categoty = categoryId > 0 ? 'category=' + categoryId : '';
         const search = searchValue ? `&search=${searchValue}` : '';
 
-        fetch(`https://651701c309e3260018ca9138.mockapi.io/items?${categoty}&sortBy=${sortBy}&order=${order}${search}`)
+        fetch(`https://651701c309e3260018ca9138.mockapi.io/items?page=${currentPage}&limit=4&${categoty}&sortBy=${sortBy}&order=${order}${search}`)
             .then((res) => {
                 return res.json();
             }).then((arr) => {
@@ -31,7 +35,7 @@ const Home = ({ searchValue }) => {
                 setIsLoading(false);
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, searchValue])
+    }, [categoryId, sortType, searchValue, currentPage])
 
     const pizzas = items.map((data) => (
         <PizzaBlock
@@ -51,7 +55,7 @@ const Home = ({ searchValue }) => {
             <div className="content__items">
                 {isLoading ? skeletons : pizzas}
             </div>
-            <Pagination />
+            <Pagination setCurrentPage={setCurrentPage} />
         </div>
     )
 }

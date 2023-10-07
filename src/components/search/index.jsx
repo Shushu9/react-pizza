@@ -1,8 +1,12 @@
-// import { useRef, useCallback } from 'react'
+import { useContext } from 'react'
+import { SearchContext } from '../../App';
 
 import styles from './search.module.scss'
 
-const Search = ({ searchValue, setSearchValue }) => {
+
+
+const Search = () => {
+    const { searchValue, setSearchValue } = useContext(SearchContext);
 
     const onClickClear = () => {
         return setSearchValue('')
