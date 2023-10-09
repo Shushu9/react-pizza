@@ -1,20 +1,25 @@
 import { useState } from "react";
 
-function Sort({ sortType, selectSortType }) {
+import { useSelector, useDispatch } from 'react-redux'
+import { setSortType } from '../redux/filter/slice'
 
+const LIST = [
+  { name: 'популярности (DESC)', sort: 'rating' },
+  { name: 'популярности (ASC)', sort: '-rating' },
+  { name: 'цене (DESC)', sort: 'price' },
+  { name: 'цене (ASC)', sort: '-price' },
+  { name: 'алфавиту (DESC)', sort: 'title' },
+  { name: 'алфавиту (ASC)', sort: '-title' },
+];
+
+function Sort() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const list = [
-    { name: 'популярности (DESC)', sort: 'rating' },
-    { name: 'популярности (ASC)', sort: '-rating' },
-    { name: 'цене (DESC)', sort: 'price' },
-    { name: 'цене (ASC)', sort: '-price' },
-    { name: 'алфавиту (DESC)', sort: 'title' },
-    { name: 'алфавиту (ASC)', sort: '-title' },
-  ];
+  const sortType = useSelector((state) => state.filter.sortType)
+  const dispatch = useDispatch()
 
   const selectActiveItem = (el) => {
-    selectSortType(el)
+    dispatch(setSortType(el))
     setIsOpen(() => false)
   }
 
@@ -40,7 +45,7 @@ function Sort({ sortType, selectSortType }) {
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {list.map((item) => {
+            {LIST.map((item) => {
               return (
                 <li
                   onClick={() => selectActiveItem(item)}
