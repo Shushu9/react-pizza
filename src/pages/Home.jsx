@@ -1,6 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux'
+import axios from 'axios';
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setCurrentPage } from '../redux/filter/slice'
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -8,18 +12,16 @@ import PizzaBlock from '../components/pizza-block';
 import Skeleton from '../components/pizza-block/Skeleton';
 import Pagination from '../components/pagination';
 
-import { SearchContext } from '../App';
 
 const Home = () => {
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
+    const { categoryId, sortType, currentPage, searchValue } = useSelector((state) => state.filter)
+    const dispatch = useDispatch();
 
-
-
-    const { categoryId, sortType } = useSelector((state) => state.filter)
-
-    const { searchValue } = useContext(SearchContext);
+    const onChangePage = (num) => {
+        dispatch(setCurrentPage(num))
+    }
 
     useEffect(() => {
         setIsLoading(true);
@@ -29,12 +31,12 @@ const Home = () => {
         const categoty = categoryId > 0 ? 'category=' + categoryId : '';
         const search = searchValue ? `&search=${searchValue}` : '';
 
-        fetch(`https://651701c309e3260018ca9138.mockapi.io/items?page=${currentPage}&limit=4&${categoty}&sortBy=${sortBy}&order=${order}${search}`)
+        axios.get(`https://651701c309e3260018ca9138.mockapi.io/items?page=${currentPage}&limit=4&${categoty}&sortBy=${sortBy}&order=${order}${search}`)
             .then((res) => {
-                return res.json();
-            }).then((arr) => {
-                setItems(arr);
+                setItems(res.data);
                 setIsLoading(false);
+            }).catch((error) => {
+                console.log(error);
             })
         window.scrollTo(0, 0)
     }, [categoryId, sortType, searchValue, currentPage])
@@ -57,7 +59,7 @@ const Home = () => {
             <div className="content__items">
                 {isLoading ? skeletons : pizzas}
             </div>
-            <Pagination setCurrentPage={setCurrentPage} />
+            <Pagination currentPage={currentPage} setCurrentPage={(i) => onChangePage(i)} />
         </div>
     )
 }
