@@ -26,18 +26,24 @@ export const filterSlice = createSlice({
         setSortType: (state, action) => {
             state.sortType = action.payload
         },
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
-        },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
+        setFilters: (state, action) => {
+            if (Object.keys(action.payload).length) {
+                state.categoryId = Number(action.payload.categoryId);
+                state.currentPage = Number(action.payload.currentPage);
+                state.sortType = action.payload.sortType;
+            } else {
+                state.categoryId = 0;
+                state.currentPage = 1;
+                state.sortType = {
+                    name: 'популярности (DESC)',
+                    sort: 'rating'
+                };
+            }
+
         },
     },
 })
 
-export const { setCategoryId, setCurrentPage, setSortType, setSearchValue } = filterSlice.actions
+export const { setCategoryId, setCurrentPage, setFilters, setSortType, setSearchValue } = filterSlice.actions
 
 export default filterSlice.reducer
