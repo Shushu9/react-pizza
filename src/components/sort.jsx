@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortType } from '../redux/filter/slice'
+import { useRef } from "react";
 
 export const LIST = [
   { name: 'популярности (DESC)', sort: 'rating' },
@@ -14,6 +15,8 @@ export const LIST = [
 
 function Sort() {
   const [isOpen, setIsOpen] = useState(false)
+  const sortRef = useRef();
+
 
   const sortType = useSelector((state) => state.filter.sortType)
   const dispatch = useDispatch()
@@ -23,8 +26,24 @@ function Sort() {
     setIsOpen(() => false)
   }
 
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsOpen(() => false)
+      }
+    }
+
+    document.body.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    }
+  }, [])
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           className={isOpen ? 'rotated' : ''}
