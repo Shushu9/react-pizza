@@ -5,7 +5,7 @@ import qs from "qs";
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
-import { setCurrentPage, setFilters } from '../redux/filter/slice'
+import { selectFilter, setCurrentPage, setFilters } from '../redux/filter/slice'
 import { fetchPizzas } from '../redux/pizza/slice'
 
 import Categories from '../components/Categories';
@@ -19,7 +19,7 @@ const Home = () => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
     const { items, status } = useSelector((state) => state.pizza)
-    const { categoryId, sortType, currentPage, searchValue } = useSelector((state) => state.filter)
+    const { categoryId, sortType, currentPage, searchValue } = useSelector(selectFilter)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

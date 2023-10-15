@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from 'react-redux'
-import { setSortType } from '../redux/filter/slice'
+import { selectFilter, setSortType } from '../redux/filter/slice'
 import { useRef } from "react";
 
 export const LIST = [
@@ -16,17 +16,13 @@ export const LIST = [
 function Sort() {
   const [isOpen, setIsOpen] = useState(false)
   const sortRef = useRef();
-
-
-  const sortType = useSelector((state) => state.filter.sortType)
+  const sortType = useSelector(selectFilter).sortType;
   const dispatch = useDispatch()
 
   const selectActiveItem = (el) => {
     dispatch(setSortType(el))
     setIsOpen(() => false)
   }
-
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
