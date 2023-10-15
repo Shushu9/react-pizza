@@ -5,12 +5,14 @@ import { setCategoryId, setCurrentPage } from '../redux/filter/slice'
 function Categories() {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-  const categoryId = useSelector((state) => state.filter.categoryId)
+  const { categoryId, currentPage } = useSelector((state) => state.filter)
   const dispatch = useDispatch()
 
   const changeCathegory = (index) => {
     dispatch(setCategoryId(index));
-    dispatch(setCurrentPage(1));
+    if (currentPage !== 1) {
+      dispatch(setCurrentPage(1));
+    }
   }
 
   return (
