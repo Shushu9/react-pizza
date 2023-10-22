@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 import CartItem from './cart-item/CartItem';
 import CartEmpty from './cart-empty/Cartempty';
 
+import { CartitemProps } from './cart-item/CartItem';
+
 
 const CartBlock = () => {
     const dispatch = useDispatch()
-
-    const { items, totalPrice } = useSelector(state => state.cart)
-    const pizzasCount = items.reduce((sum, obj) => obj.count + sum, 0);
+    //@ts-ignore
+    const { items, totalPrice } = useSelector(state => state?.cart as any)
+    const pizzasCount = items.reduce((sum: number, obj: any) => obj.count + sum, 0);
 
     const clearCart = () => {
         if (window.confirm('Вы действительно очистить корзину?')) {
@@ -46,7 +48,7 @@ const CartBlock = () => {
                     </div>
                 </div>
                 <div className="content__items">
-                    {items.map((el) => {
+                    {items.map((el: CartitemProps) => {
                         return <CartItem {...el} key={el.id} />
                     })}
 

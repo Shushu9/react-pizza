@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import qs from "qs";
 
@@ -15,15 +15,15 @@ import Skeleton from '../components/pizza-block/Skeleton';
 import Pagination from '../components/pagination';
 
 
-const Home = () => {
+const Home: React.FC = () => {
     const isSearch = useRef(false);
-    const isMounted = useRef(false);
+    const isMounted = useRef(false);     //@ts-ignore
     const { items, status } = useSelector((state) => state.pizza)
     const { categoryId, sortType, currentPage, searchValue } = useSelector(selectFilter)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onChangePage = (num) => {
+    const onChangePage = (num: number) => {
         dispatch(setCurrentPage(num))
     }
 
@@ -33,6 +33,7 @@ const Home = () => {
         const categoty = categoryId > 0 ? 'category=' + categoryId : '';
         const search = searchValue ? `&search=${searchValue}` : '';
 
+        //@ts-ignore
         dispatch(fetchPizzas({
             order,
             sortBy,
@@ -83,7 +84,7 @@ const Home = () => {
         isMounted.current = true;
     }, [categoryId, currentPage, navigate, sortType, searchValue])
 
-    const pizzas = items.map((data) => (
+    const pizzas = items.map((data: any) => (
         <PizzaBlock
             {...data}
             key={data.id} />
@@ -109,7 +110,7 @@ const Home = () => {
                 </div>
             )}
 
-            < Pagination currentPage={currentPage} setCurrentPage={(i) => onChangePage(i)} />
+            < Pagination currentPage={currentPage} setCurrentPage={(i: number) => onChangePage(i)} />
         </div>
     )
 }

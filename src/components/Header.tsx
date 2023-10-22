@@ -10,7 +10,7 @@ function Header() {
 
   const location = useLocation();
 
-  const pizzasCount = items.reduce((sum, obj) => obj.count + sum, 0);
+  const pizzasCount = items.reduce((sum: number, obj: any) => obj.count + sum, 0);
 
   return (
     <div className="header">

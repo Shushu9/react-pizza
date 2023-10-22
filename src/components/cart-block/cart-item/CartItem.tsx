@@ -2,7 +2,17 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addItem, removeItem, removeItems } from '../../../redux/cart/slice'
 
-const CartItem = ({ id, count, size, type, imageUrl, title, price }) => {
+export type CartitemProps = {
+    id: string,
+    count: number,
+    size: number,
+    type: string,
+    imageUrl: string,
+    title: string,
+    price: number
+}
+
+const CartItem: React.FC<CartitemProps> = ({ id, count, size, type, imageUrl, title, price }) => {
     const dispatch = useDispatch()
 
     const addOnePizza = () => {

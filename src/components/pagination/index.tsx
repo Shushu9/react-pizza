@@ -1,8 +1,14 @@
 import ReactPaginate from 'react-paginate';
 
 import styles from './pagination.module.scss';
+import React from 'react';
 
-const Pagination = ({ currentPage, setCurrentPage }) => {
+type PaginationProps = {
+    currentPage: number,
+    setCurrentPage: any,
+}
+
+const Pagination: React.FC<PaginationProps> = ({ currentPage, setCurrentPage }) => {
     return (
         <ReactPaginate
             className={styles.root}

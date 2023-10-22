@@ -10,18 +10,18 @@ import styles from './search.module.scss'
 
 const Search = () => {
     const [value, setValue] = useState('');
-    const inputRef = useRef();
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const dispatch = useDispatch()
 
     // eslint-disable-next-line
     const updateSearchValue = useCallback(
-        debounce((str) => {
+        debounce((str: string) => {
             dispatch(setSearchValue(str));
         }, 1000), []
     )
 
-    const onChangeInput = (e) => {
+    const onChangeInput = (e: any) => {
         setValue(e.target.value)
         updateSearchValue(e.target.value)
     }
@@ -29,7 +29,7 @@ const Search = () => {
     const onClickClear = () => {
         dispatch(setSearchValue(''));
         setValue('');
-        inputRef.current.focus();
+        inputRef.current?.focus();
     }
 
     return (

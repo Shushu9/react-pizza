@@ -2,13 +2,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectFilter, setCategoryId, setCurrentPage } from '../redux/filter/slice'
 
 
-function Categories() {
+const Categories = () => {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
   const { categoryId, currentPage } = useSelector(selectFilter)
   const dispatch = useDispatch()
 
-  const changeCathegory = (index) => {
+  const changeCathegory = (index: number) => {
     dispatch(setCategoryId(index));
     if (currentPage !== 1) {
       dispatch(setCurrentPage(1));
