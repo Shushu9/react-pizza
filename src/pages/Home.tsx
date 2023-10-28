@@ -4,9 +4,11 @@ import qs from "qs";
 
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-
-import { selectFilter, setCurrentPage, setFilters } from '../redux/filter/slice'
-import { SearchPizzaParams, fetchPizzas, selectPizzaData } from '../redux/pizza/slice'
+import { selectFilter } from '../redux/filter/selectors';
+import { setCurrentPage, setFilters } from '../redux/filter/slice'
+import { fetchPizzas } from '../redux/pizza/asyncActions'
+import { SearchPizzaParams } from '../redux/pizza/types';
+import { selectPizzaData } from '../redux/pizza/selectors';
 
 import Categories from '../components/Categories';
 import SortPopup, { LIST } from '../components/Sort';
