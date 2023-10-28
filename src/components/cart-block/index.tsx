@@ -1,20 +1,17 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAllItems } from '../../redux/cart/slice'
+import { CartItem, clearAllItems, selectCart } from '../../redux/cart/slice'
 
 
 import { Link } from 'react-router-dom';
-import CartItem from './cart-item/CartItem';
+import CartItemBlock from './cart-block/CartItemBlock';
 import CartEmpty from './cart-empty/Cartempty';
-
-import { CartitemProps } from './cart-item/CartItem';
 
 
 const CartBlock = () => {
     const dispatch = useDispatch()
-    //@ts-ignore
-    const { items, totalPrice } = useSelector(state => state?.cart as any)
-    const pizzasCount = items.reduce((sum: number, obj: any) => obj.count + sum, 0);
+    const { items, totalPrice } = useSelector(selectCart)
+    const pizzasCount = items.reduce((sum: number, obj: CartItem) => obj.count + sum, 0);
 
     const clearCart = () => {
         if (window.confirm('Вы действительно очистить корзину?')) {
@@ -48,8 +45,8 @@ const CartBlock = () => {
                     </div>
                 </div>
                 <div className="content__items">
-                    {items.map((el: CartitemProps) => {
-                        return <CartItem {...el} key={el.id} />
+                    {items.map((el: CartItem) => {
+                        return <CartItemBlock {...el} key={el.id} />
                     })}
 
                 </div>

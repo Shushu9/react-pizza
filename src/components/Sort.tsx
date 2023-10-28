@@ -1,47 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useSelector, useDispatch } from 'react-redux'
 import { selectFilter, setSortType } from '../redux/filter/slice'
 import { useRef } from "react";
 
-type SortList = {
-  name: string,
-  sort: string,
-}
+import { SortType } from "../redux/filter/slice";
 
-export const LIST: SortList[] = [
-  { name: 'популярности (DESC)', sort: 'rating' },
-  { name: 'популярности (ASC)', sort: '-rating' },
-  { name: 'цене (DESC)', sort: 'price' },
-  { name: 'цене (ASC)', sort: '-price' },
-  { name: 'алфавиту (DESC)', sort: 'title' },
-  { name: 'алфавиту (ASC)', sort: '-title' },
+import { SortPropertyEnum } from "../redux/filter/slice";
+// type PopUpClick = MouseEvent & {
+//   path: Node[],
+// };
+
+export const LIST: SortType[] = [
+  { name: 'популярности (DESC)', sort: SortPropertyEnum.RATING_DESC },
+  { name: 'популярности (ASC)', sort: SortPropertyEnum.RATING_ASC },
+  { name: 'цене (DESC)', sort: SortPropertyEnum.PRICE_DESC },
+  { name: 'цене (ASC)', sort: SortPropertyEnum.PRICE_ASC },
+  { name: 'алфавиту (DESC)', sort: SortPropertyEnum.TITLE_DESC },
+  { name: 'алфавиту (ASC)', sort: SortPropertyEnum.TITLE_ASC },
 ];
 
-function Sort() {
+const SortPopup: React.FC = React.memo(() => {
   const [isOpen, setIsOpen] = useState(false)
   const sortRef = useRef<HTMLDivElement>(null);
   const sortType = useSelector(selectFilter).sortType;
   const dispatch = useDispatch()
 
-  const selectActiveItem = (el: SortList) => {
+  const selectActiveItem = (el: SortType) => {
     dispatch(setSortType(el))
     setIsOpen(() => false)
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
-        setIsOpen(() => false)
-      }
-    }
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     const _event = event as PopUpClick;
 
-    document.body.addEventListener('click', handleClickOutside)
+  //     if (sortRef.current && !_event.path.includes(sortRef.current)) {
+  //       setIsOpen(() => false)
+  //     }
+  //   }
 
-    return () => {
-      document.body.removeEventListener('click', handleClickOutside);
-    }
-  }, [])
+  //   document.body.addEventListener('click', handleClickOutside)
+
+  //   return () => {
+  //     document.body.removeEventListener('click', handleClickOutside);
+  //   }
+  // }, [])
 
   return (
     <div className="sort" ref={sortRef}>
@@ -81,6 +85,6 @@ function Sort() {
       )}
     </div>
   )
-}
+})
 
-export default Sort;
+export default SortPopup;

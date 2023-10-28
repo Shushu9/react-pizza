@@ -1,19 +1,19 @@
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { selectFilter, setCategoryId, setCurrentPage } from '../redux/filter/slice'
 
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-const Categories = () => {
-  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
-
+const Categories: React.FC = React.memo(() => {
   const { categoryId, currentPage } = useSelector(selectFilter)
   const dispatch = useDispatch()
 
-  const changeCathegory = (index: number) => {
+  const changeCathegory = useCallback((index: number) => {
     dispatch(setCategoryId(index));
     if (currentPage !== 1) {
       dispatch(setCurrentPage(1));
     }
-  }
+  }, [currentPage, dispatch])
 
   return (
     <div className="categories">
@@ -26,6 +26,6 @@ const Categories = () => {
       </ul>
     </div>
   )
-}
+})
 
 export default Categories;

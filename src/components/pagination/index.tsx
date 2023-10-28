@@ -5,7 +5,7 @@ import React from 'react';
 
 type PaginationProps = {
     currentPage: number,
-    setCurrentPage: any,
+    setCurrentPage: (elem: number) => void,
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, setCurrentPage }) => {
@@ -17,8 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, setCurrentPage }) 
             onPageChange={(event) => setCurrentPage(event.selected + 1)}
             pageRangeDisplayed={4}
             pageCount={3}
-            forcePage={currentPage - 1} //прочесть об этом элементе
-
+            forcePage={currentPage - 1}
             previousLabel="<"
             renderOnZeroPageCount={null}
         />
