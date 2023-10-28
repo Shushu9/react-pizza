@@ -1,7 +1,8 @@
 {
-  "name": "25.pizza",
+  "name": "react-pizza",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://shushu9.github.io/react-pizza/build",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.17.0",
