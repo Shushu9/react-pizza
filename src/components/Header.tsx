@@ -24,7 +24,7 @@ function Header() {
   return (
     <div className="header">
       <div className="container">
-        <Link to='/react-pizza/build/'>
+        <Link to='/'>
           <div className="header__logo">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
@@ -33,9 +33,9 @@ function Header() {
             </div>
           </div>
         </Link>
-        {location.pathname !== 'https://shushu9.github.io/react-pizza/build/cart' && <Search />}
+        {location.pathname !== '/cart' && <Search />}
         <div className="header__cart">
-          <Link to="/react-pizza/build/cart" className="button button--cart">
+          <Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <svg

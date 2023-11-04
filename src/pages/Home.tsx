@@ -17,6 +17,8 @@ import Skeleton from '../components/pizza-block/Skeleton';
 import Pagination from '../components/pagination';
 import { useAppDispatch } from '../redux/store';
 
+import { SortType } from '../redux/filter/types';
+
 
 const Home: React.FC = () => {
     const isSearch = useRef(false);
@@ -30,21 +32,7 @@ const Home: React.FC = () => {
         dispatch(setCurrentPage(num))
     }
 
-    const getPizzas = async () => {
-        const order = sortType.sort.includes('-') ? 'asc' : 'desc';
-        const sortBy = sortType.sort.replace('-', '');
-        const category = categoryId > 0 ? 'category=' + categoryId : '';
-        const search = searchValue ? `&search=${searchValue}` : '';
 
-        dispatch(
-            fetchPizzas({
-                order,
-                sortBy,
-                category,
-                search,
-                currentPage: String(currentPage),
-            }));
-    }
 
     useEffect(() => {
         if (window.location.search) {
@@ -64,15 +52,30 @@ const Home: React.FC = () => {
     }, [dispatch])
 
     useEffect(() => {
+        const getPizzas = async (categoryId: number, sortType: SortType, searchValue: string, currentPage: number) => {
+            const order = sortType.sort.includes('-') ? 'asc' : 'desc';
+            const sortBy = sortType.sort.replace('-', '');
+            const category = categoryId > 0 ? 'category=' + categoryId : '';
+            const search = searchValue ? `&search=${searchValue}` : '';
+
+            dispatch(
+                fetchPizzas({
+                    order,
+                    sortBy,
+                    category,
+                    search,
+                    currentPage: String(currentPage),
+                }));
+        }
+
         window.scrollTo(0, 0)
 
         if (!isSearch.current) {
-            getPizzas()
+            getPizzas(categoryId, sortType, searchValue, currentPage)
         }
 
         isSearch.current = false;
-        // eslint-disable-next-line
-    }, [categoryId, sortType, searchValue, currentPage])
+    }, [categoryId, sortType, searchValue, currentPage, dispatch])
 
     useEffect(() => {
         if (isMounted.current) {
