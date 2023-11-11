@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
+import styles from './full-pizza-block.module.scss';
+
 const FullPizzaBlock: React.FC = () => {
     const [pizza, setPizza] = useState<{
         imageUrl: string;
@@ -33,15 +35,24 @@ const FullPizzaBlock: React.FC = () => {
         return <>Загрузка...</>;
     }
     return (
-        <div className="container">
-            <img src={pizza.imageUrl} alt='pizza' />
-            <h2>{pizza.title}</h2>
-            <h4>{pizza.price} ₽</h4>
-            <Link to="/">
-                <button className="button button--outline button--add">
-                    <span>Назад</span>
-                </button>
-            </Link>
+        <div className={styles.root}>
+            <div className={styles.image}>
+                <img src={pizza.imageUrl} alt='pizza' />
+            </div>
+
+            <div className={styles.info}>
+                <h2>{pizza.title}</h2>
+                <h4>Стоимость: {pizza.price} ₽</h4>
+                <p className={styles.desc}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <Link to="/">
+                    <button className="button button--outline button--add">
+                        <span>Назад</span>
+                    </button>
+                </Link>
+            </div>
+
         </div>
     );
 };
