@@ -30,6 +30,10 @@
         cursor: pointer;
         @include noselect();
 
+        @media (max-width: 850px) {
+            text-align: end;
+        }
+
         span {
             display: inline-block;
             margin-left: 7px;
@@ -41,6 +45,15 @@
         svg,
         path {
             transition: all $duration ease-in-out;
+
+
+
+        }
+
+        @media (max-width: 850px) {
+            svg {
+                display: none;
+            }
         }
 
         &:hover {
@@ -68,11 +81,24 @@
         margin-top: 30px;
         justify-content: space-between;
 
+        @media (max-width: 850px) {
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px
+        }
+
         &-img {
+
             display: flex;
+            justify-content: center;
             align-items: center;
             margin-right: 15px;
             width: 10%;
+
+            @media (max-width: 850px) {
+                width: 100%;
+            }
 
             img {
                 width: 80px;
@@ -85,6 +111,11 @@
             flex-direction: column;
             justify-content: center;
             width: 40%;
+
+            @media (max-width: 850px) {
+                width: 100%;
+                align-items: center
+            }
 
             h3 {
                 font-weight: bold;
@@ -104,6 +135,10 @@
             align-items: center;
             justify-content: space-between;
             width: 13%;
+
+            @media (max-width: 850px) {
+                width: 100px;
+            }
 
             &-minus {
                 svg {
@@ -144,6 +179,10 @@
             align-items: center;
             justify-content: center;
             width: 33%;
+
+            @media (max-width: 850px) {
+                width: 80px;
+            }
 
             b {
                 font-weight: bold;
@@ -198,6 +237,10 @@
             span {
                 font-size: 22px;
 
+                @media (max-width: 850px) {
+                    font-size: 18px;
+                }
+
                 &:last-of-type {
                     b {
                         color: $orange;
@@ -210,6 +253,14 @@
             display: flex;
             justify-content: space-between;
             margin-top: 40px;
+
+            @media (max-width: 850px) {
+                gap: 15px;
+
+                .button {
+                    line-height: 103%;
+                }
+            }
 
             .go-back-btn {
                 display: flex;
